@@ -56,16 +56,15 @@ export class AuthService {
     return {
       usuario: usuarioDB,
       token: this.getJWT({ usuario: usuarioDB.usuario }),
-      mensaje: 'User logged successfully',
     };
   }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
+  async findUserByUser(usuario: string) {
+    const usuarioDB = await this.userRepository.findOne({
+      where: { usuario },
+    });
+    delete usuarioDB.contrasena;
+    return usuarioDB;
   }
   private handleDBErrors(error: any): never {
     if (error.code === '23505') {
@@ -75,7 +74,7 @@ export class AuthService {
     throw new BadRequestException('Something went wrong');
   }
 
-  private getJWT(payload: JwtPayload) {
+  getJWT(payload: JwtPayload) {
     const token = this.jwtService.sign(payload);
     return token;
   }

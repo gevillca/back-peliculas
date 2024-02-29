@@ -1,4 +1,5 @@
 import { User } from 'src/auth/entities/user.entity';
+import { BaseEntity } from '../../common/base.entity';
 import {
   Column,
   Entity,
@@ -10,7 +11,7 @@ import {
 @Entity({
   name: 'peliculas',
 })
-export class Movie {
+export class Movie extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
   @Column()
@@ -36,7 +37,7 @@ export class Movie {
   })
   estado: boolean;
 
-  @ManyToMany(() => User, (usuario) => usuario.peliculas)
+  @ManyToMany(() => User, (usuario) => usuario.peliculas, { cascade: true })
   @JoinTable({
     name: 'peliculas_usuarios',
     joinColumn: {

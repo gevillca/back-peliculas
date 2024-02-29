@@ -1,34 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  Delete,
+  ParseUUIDPipe,
+  Get,
+} from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
-import { UpdateMovieDto } from './dto/update-movie.dto';
 
-@Controller('movies')
+@Controller('peliculas')
 export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
 
-  @Post()
-  create(@Body() createMovieDto: CreateMovieDto) {
-    return this.moviesService.create(createMovieDto);
+  @Post('favorito')
+  addFavorite(@Body() createMovieDto: CreateMovieDto) {
+    return this.moviesService.addFavorite(createMovieDto);
   }
 
-  @Get()
-  findAll() {
-    return this.moviesService.findAll();
+  @Get('lista-favorito/:id')
+  findFavoriteUser(@Param('id', ParseUUIDPipe) id: string) {
+    return this.moviesService.findFavoriteUser(id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.moviesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMovieDto: UpdateMovieDto) {
-    return this.moviesService.update(+id, updateMovieDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.moviesService.remove(+id);
+  @Delete('favoritas/eliminar/:id')
+  removeFavorite(@Param('id', ParseUUIDPipe) id: string) {
+    return this.moviesService.removeFavorite(id);
   }
 }
