@@ -7,67 +7,148 @@
 
   <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
     <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
+
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Diagrama de base de Datos de la aplicacion
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+<p align="center">
+  <img src='diagrama/moviesDB - public.png' alt="Descripción de la imagen"/>
+</p>
 
-## Installation
+## Pasos para la instalacion
 
-```bash
-$ yarn install
-```
+1. Tener instalado Node para su sistema operativo seguir los pasos de instalacion de su sitio web en base a su sistema operativo
 
-## Running the app
+   - `https://nodejs.org/en `
 
-```bash
-# development
-$ yarn run start
+2. Instalar yarn
+   ```
+   npm install --global yarn
+   ```
+3. Instalar Docker para su sistema operativo siguiendo los pasos de la pagina web
 
-# watch mode
-$ yarn run start:dev
+   - `https://docs.docker.com/engine/install `
 
-# production mode
-$ yarn run start:prod
-```
+4. Instalar las dependecias del proyecto
+   ```bash
+   $ yarn install
+   ```
 
-## Test
+## Pasos para ejecutar la aplicacion
 
-```bash
-# unit tests
-$ yarn run test
+1. Instalar las dependecias del proyecto
 
-# e2e tests
-$ yarn run test:e2e
+   ```bash
+   $ yarn install
+   ```
 
-# test coverage
-$ yarn run test:cov
-```
+2. Renombrar las variables de entorno de:
+   ```bash
+   $ env.sample a .env
+   ```
+3. Configurar las variables de entorno
 
-## Support
+4. Una vez configurado las variables de entorno ejecutar el comando de docker compose para crear la base de datos
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+   ```bash
+   $ docker compose up -d
+   ```
 
-## Stay in touch
+5. Correr la aplicacion con los siguientes comandos
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+   ```bash
+   # desarrollo
+   $ yarn run start
 
-## License
+   # modo escucha
+   $ yarn run start:dev
 
-Nest is [MIT licensed](LICENSE).
+   # produccion
+   $ yarn run start:prod
+   ```
+
+6. La aplicación estará disponible en [http://localhost:3000/api/v1/](http://localhost:3000/api/v1/).
+
+## End points de la aplicacion
+
+- Registro
+  
+  **Método:**
+  `POST`
+  - http://localhost:3000/api/v1/usuario/register
+  ```json
+  {
+    "usuario": "",
+    "nombres": "",
+    "primer_apellido": "",
+    "segundo_apellido": "",
+    "contrasena": ""
+  }
+  ```
+
+- Login
+  
+  **Método:**
+  `POST`
+  - http://localhost:3000/api/v1/usuario/login
+  ```json
+  {
+    "usuario": "",
+    "contrasena": ""
+  }
+  ```
+
+- Verificar Token
+  
+  **Método:**
+  `GET`
+  - http://localhost:3000/api/v1/usuario/check-token
+
+  ```bash
+       curl --location 'http://localhost:3000/api/v1/usuario/check-token' \
+        --header 'Authorization: Bearer Tu-token'
+  ```
+
+- Agregar favoritos
+  
+    **Método:**
+  `POST`
+  - http://localhost:3000/api/v1/peliculas/favorito
+
+  ```json
+  {
+    "imdbID": "",
+    "title": "",
+    "year": "",
+    "poster": "",
+    "actors": "",
+    "director": "",
+    "usuario_id": ""
+  }
+  ```
+- Eliminar favoritos
+  
+   **Método:**
+  `DELETE`
+  - http://localhost:3000/api/v1/peliculas/favoritas/eliminar/id_pelicula
+
+  ```json
+  {
+    "imdbID": "",
+    "title": "",
+    "year": "",
+    "poster": "",
+    "actors": "",
+    "director": "",
+    "usuario_id": ""
+  }
+  ```
+- Listar favoritos
+  
+   **Método:**
+  `GET`
+  - http://localhost:3000/api/v1/peliculas/lista-favorito/id_usuario
+
+  

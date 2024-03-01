@@ -2,8 +2,9 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Movie } from './entities/movie.entity';
-import { Repository } from 'typeorm';
+import { Repository, ILike } from 'typeorm';
 import { User } from 'src/auth/entities/user.entity';
+import { SearchMoviesDto } from './dto/search-movie.dto';
 
 @Injectable()
 export class MoviesService {
@@ -24,6 +25,7 @@ export class MoviesService {
     const peliculaExiste = await this.movieRepository.findOne({
       where: {
         imdbID: peliculaFavorita.imdbID,
+        estado: true,
         usuarios: {
           id: usuario_id,
         },
@@ -61,8 +63,27 @@ export class MoviesService {
         },
         estado: true,
       },
+      order: {
+        createdAt: 'DESC',
+      },
     });
     return pelicuas;
+  }
+
+  async searchMovies(searchMoviesDto: SearchMoviesDto) {
+    const { termino, offset, limit } = searchMoviesDto;
+    const peliculasUsuario = await this.movieRepository.find({
+      where: {
+        title: ILike(`%${termino}%`),
+        estado: true,
+      },
+      skip: offset,
+      take: limit,
+    });
+    return {
+      total: peliculasUsuario.length,
+      peliculas: peliculasUsuario,
+    };
   }
 
   async removeFavorite(id: string) {

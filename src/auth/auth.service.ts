@@ -22,6 +22,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
   async create(createUserDto: CreateUserDto) {
+    console.log(createUserDto);
     try {
       const { contrasena, ...rest } = createUserDto;
       const usuarioDB = this.userRepository.create({
@@ -32,9 +33,8 @@ export class AuthService {
       delete usuarioDB.contrasena;
 
       return {
-        ...usuarioDB,
+        usuario: usuarioDB,
         token: this.getJWT({ usuario: usuarioDB.usuario }),
-        message: 'User created successfully',
       };
     } catch (error) {
       this.handleDBErrors(error);
