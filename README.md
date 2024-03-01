@@ -18,8 +18,12 @@
 </p>
 
 ## Pasos para la instalacion
+1. Clonar el repositorio 
+  ```
+  https://github.com/gevillca/back-peliculas.git
+  ```
 
-1. Tener instalado Node para su sistema operativo seguir los pasos de instalacion de su sitio web en base a su sistema operativo
+2. Tener instalado Node para su sistema operativo seguir los pasos de instalacion de su sitio web en base a su sistema operativo
 
    - `https://nodejs.org/en `
 
@@ -27,11 +31,11 @@
    ```
    npm install --global yarn
    ```
-3. Instalar Docker para su sistema operativo siguiendo los pasos de la pagina web
+4. Instalar Docker para su sistema operativo siguiendo los pasos de la pagina web
 
    - `https://docs.docker.com/engine/install `
 
-4. Instalar las dependecias del proyecto
+5. Instalar las dependecias del proyecto
    ```bash
    $ yarn install
    ```
